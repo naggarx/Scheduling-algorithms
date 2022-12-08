@@ -4,17 +4,21 @@ public class Process
     private int ArrivalTime;
     private int BurstTime;
     private int Priority;
+    private int QuantumTime;
+
+
 
     Process()
     {
     }
 
-    Process(String name,int arrive,int burst,int prio)
+    Process(String name,int arrive,int burst,int prio,int Quanto)
     {
         this.Name=name;
         this.ArrivalTime=arrive;
         this.BurstTime=burst;
         this.Priority=prio;
+        this.QuantumTime=Quanto;
     }
     public void setName(String name)
     {
@@ -36,6 +40,11 @@ public class Process
         this.Priority=prio;
 
     }
+    public void QuantumTime(int Quanto)
+    {
+        this.QuantumTime=Quanto;
+
+    }
     public String getName()
     {
         return Name;
@@ -54,6 +63,11 @@ public class Process
     public int getPriority()
     {
        return Priority;
+
+    }
+    public int getQuantumTime()
+    {
+        return QuantumTime;
 
     }
 
