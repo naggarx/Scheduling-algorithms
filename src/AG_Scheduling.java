@@ -34,6 +34,14 @@ public class AG_Scheduling
     public void setOrder(String order) {
         Order.add(order);
     }
+    public boolean Compare(Process p1 ,Process p2) {
+        if(p1.getName()==p2.getName())
+        {return true;}
+        else
+        {return false;}
+
+    }
+
 
     public Vector<String> getOrder() {
         return Order;
@@ -51,6 +59,29 @@ public class AG_Scheduling
         }
 
     }
+    public int getindex(Process p1, Vector<Process> P)
+    {
+        int indx=-1;
+        for(int j=0;j<P.size();j++)
+        {
+            if(P.get(j).getName()==p1.getName())
+            {
+                indx=j;
+            }
+        }
+        return indx;
+
+    }
+    public boolean checkBurstTime(Process p)
+    {
+        if(p.getBurstTime()<=0)
+        {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
     public void Addarrival(Vector<Process> P,double t)
     {
         for(int i=0;i<P.size();i++)
@@ -66,24 +97,68 @@ public class AG_Scheduling
 
 //fcfs---priority---shortestburst//
 
-    public void schedule(Vector<Process> p1,int n) {
+    public void schedule(int n) {
         double Time=0,quanto=0,q1=0,q2=0,counter=0,burstT=0,prio=0;
         int indx=0;
-            Addarrival(p1,Time);
-            setOrder(queue.get(0).getName());
-            quanto=queue.get(0).getQuantumTime();
-            burstT=queue.get(0).getBurstTime();
+
+        Process p1;
+
+            Addarrival(processes,Time);
+            p1=queue.get(0);
+            setOrder(p1.getName());
+            quanto=p1.getQuantumTime();
+            burstT=p1.getBurstTime();
             q1=ceil(quanto/4);
-            for(int j=0;j<p1.size();j++)
+            indx=getindex(p1,processes);
+        processes.get(indx).setBurstTime((int)(burstT-q1));
+            if(checkBurstTime(p1))
             {
-                if(p1.get(j).getName()==queue.get(0).getName())
-                {
-                    indx=j;
-                }
+                p1.setBurstTime(0);
+                processes.remove(p1);
+                queue.remove(p1);
+                Time+=p1.getBurstTime();
             }
-            p1.get(indx).setBurstTime((int)(burstT-q1));
             Time+=q1;
-            Addarrival(p1,Time);
+            Addarrival(processes,Time);
+
+            Process p2=FindHighPri(processes);
+            if(Compare(p1,p2) & !checkBurstTime(p1))
+            {
+                q2=ceil(q1/4);
+                Time+= q2;
+                processes.get(indx).setBurstTime((int)(burstT-q2));
+                if(checkBurstTime(p1))
+                {
+                    p1.setBurstTime(0);
+                    processes.remove(p1);
+                    queue.remove(p1);
+                }
+                Addarrival(processes,Time);
+                p2=FindLeastBrust(processes);
+                if(Compare(p1,p2) & !checkBurstTime(p1))
+                {
+                    quanto=quanto-q1-q2;
+                    processes.get(indx).setBurstTime((int)(burstT-quanto));
+                    if(checkBurstTime(p1))
+                    {
+                        p1.setBurstTime(0);
+                        processes.remove(p1);
+                        queue.remove(p1);
+                    }
+
+
+                }
+                else
+                {
+
+                }
+
+
+            }
+            else
+            {
+
+            }
 
 
     }
