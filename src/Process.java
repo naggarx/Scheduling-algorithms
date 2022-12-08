@@ -40,7 +40,7 @@ public class Process
         this.Priority=prio;
 
     }
-    public void QuantumTime(int Quanto)
+    public void setQuantumTime(int Quanto)
     {
         this.QuantumTime=Quanto;
 
