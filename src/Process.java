@@ -1,4 +1,5 @@
-public class Process {
+public class Process
+{
     private String Name;
     private int ArrivalTime;
     private int BurstTime;
