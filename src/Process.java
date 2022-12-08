@@ -5,6 +5,10 @@ public class Process
     private int BurstTime;
     private int Priority;
 
+    Process()
+    {
+    }
+
     Process(String name,int arrive,int burst,int prio)
     {
         this.Name=name;
