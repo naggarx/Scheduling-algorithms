@@ -5,6 +5,13 @@ public class Process
     private int BurstTime;
     private int Priority;
 
+    Process(String name,int arrive,int burst,int prio)
+    {
+        this.Name=name;
+        this.ArrivalTime=arrive;
+        this.BurstTime=burst;
+        this.Priority=prio;
+    }
     public void setName(String name)
     {
         this.Name=name;
