@@ -40,8 +40,6 @@ public class AG_Scheduling {
         }
 
     }
-
-
     public Vector<String> getOrder() {
         return Order;
     }
@@ -68,7 +66,7 @@ public class AG_Scheduling {
 
     }
 
-   
+
 
     public void Addarrival(Vector<Process> P, double t) {
         for (int i = 0; i < P.size(); i++) {
@@ -139,6 +137,7 @@ public class AG_Scheduling {
                             queue.remove(p1);
                             queue.add(p1);
                             p1 = p2;
+                            setOrder(p1.getName());
 
                         }
                     }
@@ -147,6 +146,7 @@ public class AG_Scheduling {
                     queue.remove(p1);
                     queue.add(p1);
                     p1 = p2;
+                    setOrder(p1.getName());
 
                 }
 
