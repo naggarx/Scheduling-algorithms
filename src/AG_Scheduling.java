@@ -68,13 +68,7 @@ public class AG_Scheduling {
 
     }
 
-    public boolean checkBurstTime(Process p) {
-        if (p.getBurstTime() <= 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+   
 
     public void Addarrival(Vector<Process> P, double t) {
         for (int i = 0; i < P.size(); i++) {
