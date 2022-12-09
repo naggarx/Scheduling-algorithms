@@ -1,33 +1,34 @@
 import java.util.Vector;
 
-public class Process
-{
+public class Process {
     private String Name;
     private double ArrivalTime;
+
+    private static int genProcessNumber = 1;
+
+    private int processNumber;
     private double BurstTime;
     private int Priority;
     private double QuantumTime;
     private double WaitingTime;
     private double TurnARoundTime;
-    private double ProcessTime=0;
+    private double ProcessTime = 0;
 
     Vector<Double> QuantumHistory = new Vector<>();
 
 
-
-
-    Process()
-    {
+    Process() {
     }
 
-    Process(String name,double arrive,double burst,int prio,double Quanto)
-    {
-        this.Name=name;
-        this.ArrivalTime=arrive;
-        this.BurstTime=burst;
-        this.Priority=prio;
-        this.QuantumTime=Quanto;
+    Process(String name, double arrive, double burst, int prio, double Quanto) {
+        processNumber = genProcessNumber++;
+        this.Name = name;
+        this.ArrivalTime = arrive;
+        this.BurstTime = burst;
+        this.Priority = prio;
+        this.QuantumTime = Quanto;
     }
+
     public Vector<Double> getQuantumHistory() {
         return QuantumHistory;
     }
@@ -36,53 +37,53 @@ public class Process
         this.QuantumHistory.add(H);
 
     }
-    public void setName(String name)
-    {
-        this.Name=name;
+
+    public void setName(String name) {
+        this.Name = name;
 
     }
-    public void setArrivalTime(int arrive)
-    {
-        this.ArrivalTime=arrive;
+
+    public void setArrivalTime(int arrive) {
+        this.ArrivalTime = arrive;
 
     }
-    public void setBurstTime(double burst)
-    {
-        this.BurstTime=burst;
+
+    public void setBurstTime(double burst) {
+        this.BurstTime = burst;
 
     }
-    public void setPriority(int prio)
-    {
-        this.Priority=prio;
+
+    public void setPriority(int prio) {
+        this.Priority = prio;
 
     }
-    public void setQuantumTime(double Quanto)
-    {
-        this.QuantumTime=Quanto;
+
+    public void setQuantumTime(double Quanto) {
+        this.QuantumTime = Quanto;
 
     }
-    public String getName()
-    {
+
+    public String getName() {
         return Name;
 
     }
-    public double getArrivalTime()
-    {
+
+    public double getArrivalTime() {
         return ArrivalTime;
 
     }
-    public double getBurstTime()
-    {
+
+    public double getBurstTime() {
         return BurstTime;
 
     }
-    public int getPriority()
-    {
-       return Priority;
+
+    public int getPriority() {
+        return Priority;
 
     }
-    public double getQuantumTime()
-    {
+
+    public double getQuantumTime() {
         return QuantumTime;
 
     }
@@ -110,5 +111,8 @@ public class Process
 
     public void setWaitingTime(double waitingTime) {
         WaitingTime = waitingTime;
+    }
+    public int getProcessNumber() {
+        return processNumber;
     }
 }
