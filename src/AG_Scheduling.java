@@ -5,8 +5,8 @@ import static java.lang.Math.ceil;
 public class AG_Scheduling {
     Vector<String> Order = new Vector<>();
     Vector<Process> queue = new Vector<>();
-
     Vector<Process> processes = new Vector<>();
+    Vector<Process> TimeHistory = new Vector<>();
 
     public Process FindHighPri(Vector<Process> processes) {
         Process High = new Process();
@@ -42,6 +42,7 @@ public class AG_Scheduling {
 
     public void AddProcesse(Process p1) {
         this.processes.add(p1);
+        this.TimeHistory.add(p1);
     }
 
     public void UpdateHistory(Vector<Process> p1) {
@@ -78,6 +79,11 @@ public class AG_Scheduling {
 
     }
 
+    public Vector<Process> GetTimeHistroy()
+    {
+        return TimeHistory;
+    }
+
 
 //fcfs---priority---shortestburst//
 
@@ -85,6 +91,7 @@ public class AG_Scheduling {
     {
         double Time = 0, quanto = 0, q1 = 0, q2 = 0, q3 = 0, counter = 0, burstT = 0, prio = 0,LastT;
         int indx = 0;
+        int indx2 ;
         Process p1;
         Addarrival(processes, Time,-1);
         while(queue.size() == 0)
@@ -107,7 +114,10 @@ public class AG_Scheduling {
                 queue.remove(p1);
                 LastT=Time;
                 Time += burstT;
+                indx2 = getindex(p1,TimeHistory);
+                TimeHistory.get(indx2).setTurnARoundTime(Time-TimeHistory.get(indx2).getArrivalTime());
                 Addarrival(processes, Time,LastT);
+                TimeHistory.get(indx2).setProcessTime(burstT);
                 if(!queue.isEmpty())
                     p1 = queue.get(0);
                 continue;
@@ -117,6 +127,8 @@ public class AG_Scheduling {
             LastT=Time;
             Time += q1;
             Addarrival(processes, Time,LastT);
+            indx2 = getindex(p1,TimeHistory);
+            TimeHistory.get(indx2).setProcessTime(q1);
             Process p2 = FindHighPri(queue);
             if (!Compare(p1, p2))
             {
@@ -133,6 +145,8 @@ public class AG_Scheduling {
                 queue.remove(p1);
                 LastT=Time;
                 Time += burstT;
+                indx2 = getindex(p1,TimeHistory);
+                TimeHistory.get(indx2).setTurnARoundTime(Time-TimeHistory.get(indx2).getArrivalTime());
                 Addarrival(processes, Time,LastT);
                 if(!queue.isEmpty())
                     p1 = queue.get(0);
@@ -143,6 +157,8 @@ public class AG_Scheduling {
             LastT=Time;
             Time += q2;
             Addarrival(processes, Time,LastT);
+            indx2 = getindex(p1,TimeHistory);
+            TimeHistory.get(indx2).setProcessTime(q2);
             p2 = FindLeastBrust(queue);
             q3 = quanto - q1 - q2;
             if (!Compare(p1, p2))
@@ -159,6 +175,8 @@ public class AG_Scheduling {
                 queue.remove(p1);
                 LastT=Time;
                 Time += burstT;
+                indx2 = getindex(p1,TimeHistory);
+                TimeHistory.get(indx2).setTurnARoundTime(Time-TimeHistory.get(indx2).getArrivalTime());
                 Addarrival(processes, Time,LastT);
                 if(!queue.isEmpty())
                     p1 = queue.get(0);
@@ -169,6 +187,8 @@ public class AG_Scheduling {
             LastT=Time;
             Time += q3;
             Addarrival(processes, Time,LastT);
+            indx2 = getindex(p1,TimeHistory);
+            TimeHistory.get(indx2).setProcessTime(q3);
             while ( queue.size() == 0 && processes.size()!=0)
             {
                 LastT=Time;

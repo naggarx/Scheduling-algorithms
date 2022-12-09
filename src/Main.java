@@ -2,11 +2,10 @@ import java.util.*;
 public class Main {
     public static void main(String[] args)
     {
-        System.out.println("NEGO");
-        Process p1 = new Process("p1",0,17,4,7);
-        Process p2 = new Process("p2",2,6,7,9);
-        Process p3 = new Process("p3",5,11,3,4);
-        Process p4 = new Process("p4",15,4,6,6);
+        Process p1 = new Process("P1",0,17,4,7);
+        Process p2 = new Process("P2",2,6,7,9);
+        Process p3 = new Process("P3",5,11,3,4);
+        Process p4 = new Process("P4",15,4,6,6);
         AG_Scheduling ag = new AG_Scheduling();
         ag.AddProcesse(p1);
         ag.AddProcesse(p2);
@@ -16,6 +15,19 @@ public class Main {
         Vector<String> st = ag.getOrder();
         for(String s : st)
             System.out.println(s);
+        Vector<Process> TimeHistory = ag.GetTimeHistroy();
+        double TotalATime = 0;
+        double TotalWTime = 0;
+        for(Process P: TimeHistory)
+        {
+            P.setWaitingTime((P.getTurnARoundTime() - P.getProcessTime()));
+            System.out.println(P.getName() + " Turn Around Time: " + P.getTurnARoundTime() + " Waiting Time: " + P.getWaitingTime());
+            TotalATime+=P.getTurnARoundTime();
+            TotalWTime+=P.getWaitingTime();
+        }
+        System.out.println("Average Total Time : " + TotalATime/TimeHistory.size());
+        System.out.println("Average Waiting Time : " + TotalWTime/TimeHistory.size());
+
 
     }
 }

@@ -5,6 +5,10 @@ public class Process
     private double BurstTime;
     private int Priority;
     private double QuantumTime;
+    private double WaitingTime;
+    private double TurnARoundTime;
+    private double ProcessTime=0;
+
 
 
 
@@ -72,9 +76,27 @@ public class Process
     }
 
 
+    public double getProcessTime() {
+        return ProcessTime;
+    }
 
+    public void setProcessTime(double processTime) {
+        ProcessTime += processTime;
+    }
 
+    public double getTurnARoundTime() {
+        return TurnARoundTime;
+    }
 
+    public void setTurnARoundTime(double turnARoundTime) {
+        TurnARoundTime = turnARoundTime;
+    }
 
+    public double getWaitingTime() {
+        return WaitingTime;
+    }
 
+    public void setWaitingTime(double waitingTime) {
+        WaitingTime = waitingTime;
+    }
 }
