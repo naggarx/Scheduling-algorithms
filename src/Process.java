@@ -1,10 +1,10 @@
 public class Process
 {
     private String Name;
-    private int ArrivalTime;
-    private int BurstTime;
+    private double ArrivalTime;
+    private double BurstTime;
     private int Priority;
-    private int QuantumTime;
+    private double QuantumTime;
 
 
 
@@ -30,7 +30,7 @@ public class Process
         this.ArrivalTime=arrive;
 
     }
-    public void setBurstTime(int burst)
+    public void setBurstTime(double burst)
     {
         this.BurstTime=burst;
 
@@ -40,7 +40,7 @@ public class Process
         this.Priority=prio;
 
     }
-    public void setQuantumTime(int Quanto)
+    public void setQuantumTime(double Quanto)
     {
         this.QuantumTime=Quanto;
 
@@ -50,12 +50,12 @@ public class Process
         return Name;
 
     }
-    public int getArrivalTime()
+    public double getArrivalTime()
     {
         return ArrivalTime;
 
     }
-    public int getBurstTime()
+    public double getBurstTime()
     {
         return BurstTime;
 
@@ -65,7 +65,7 @@ public class Process
        return Priority;
 
     }
-    public int getQuantumTime()
+    public double getQuantumTime()
     {
         return QuantumTime;
 

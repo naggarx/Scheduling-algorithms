@@ -33,11 +33,7 @@ public class AG_Scheduling {
     }
 
     public boolean Compare(Process p1, Process p2) {
-        if (p1.getName() == p2.getName()) {
-            return true;
-        } else {
-            return false;
-        }
+        return p1.getName() == p2.getName();
 
     }
     public Vector<String> getOrder() {
@@ -49,8 +45,8 @@ public class AG_Scheduling {
     }
 
     public void UpdateHistory(Vector<Process> p1) {
-        for (int i = 0; i < p1.size(); i++) {
-            System.out.println(p1.get(i) + ",");
+        for (Process process : p1) {
+            System.out.println(process + ",");
         }
 
     }
@@ -68,10 +64,14 @@ public class AG_Scheduling {
 
 
 
-    public void Addarrival(Vector<Process> P, double t) {
-        for (int i = 0; i < P.size(); i++) {
-            if (P.get(i).getArrivalTime() <= t) {
-                this.queue.add(P.get(i));
+    public void Addarrival(Vector<Process> P, double t1 ,double t2)
+    {
+        for (Process process : P)
+        {
+            if (process.getArrivalTime() <= t1 && process.getArrivalTime()>t2)
+            {
+                //System.out.println("ana fl arival" + process.getArrivalTime() + " "+ process.getName());
+                this.queue.add(process);
 
             }
         }
@@ -81,76 +81,103 @@ public class AG_Scheduling {
 
 //fcfs---priority---shortestburst//
 
-    public void schedule(int n) {
-        double Time = 0, quanto = 0, q1 = 0, q2 = 0, q3 = 0, counter = 0, burstT = 0, prio = 0;
+    public void schedule(int n)
+    {
+        double Time = 0, quanto = 0, q1 = 0, q2 = 0, q3 = 0, counter = 0, burstT = 0, prio = 0,LastT;
         int indx = 0;
-
         Process p1;
-        Addarrival(processes, Time);
-        while (processes.size() > 0) {
-
-            p1 = queue.get(0);
+        Addarrival(processes, Time,-1);
+        while(queue.size() == 0)
+        {
+            LastT=Time;
+            Time++;
+            Addarrival(processes, Time,LastT);
+        }
+        p1 = queue.get(0);
+        while (queue.size() > 0)
+        {
             setOrder(p1.getName());
             quanto = p1.getQuantumTime();
             burstT = p1.getBurstTime();
-            q1 = ceil(quanto / 4);
-            indx = getindex(p1, processes);
-            if (burstT <= q1) {
+            q1 = ceil(quanto / 4.0);
+            indx = getindex(p1, queue);
+            if (burstT <= q1)
+            {
                 processes.remove(p1);
                 queue.remove(p1);
+                LastT=Time;
                 Time += burstT;
-            } else {
-                burstT -= q1;
-                processes.get(indx).setBurstTime((int) (burstT));
-                Time += q1;
-                Addarrival(processes, Time);//////
-
-                Process p2 = FindHighPri(processes);
-                if (Compare(p1, p2)) {
-                    q2 = ceil(q1 / 4);
-                    if (burstT <= q2) {
-                        processes.remove(p1);
-                        queue.remove(p1);
-                        Time += burstT;
-                    } else {
-                        burstT -= q2;
-                        processes.get(indx).setBurstTime((int) (burstT));
-                        Time += q2;
-
-                        Addarrival(processes, Time);//
-
-                        p2 = FindLeastBrust(processes);
-                        if (Compare(p1, p2)) {
-                            q3 = quanto - q1 - q2;
-                            if (burstT <= q3) {
-                                processes.remove(p1);
-                                queue.remove(p1);
-                                Time += burstT;
-                            } else {
-                                burstT -= q3;
-                                processes.get(indx).setBurstTime((int) (burstT));
-                                Time += q3;
-                            }
-                        }
-                        else {
-                            processes.get(indx).setQuantumTime((int) (quanto + q3));
-                            queue.remove(p1);
-                            queue.add(p1);
-                            p1 = p2;
-                            setOrder(p1.getName());
-
-                        }
-                    }
-                } else {
-                    processes.get(indx).setQuantumTime((int) (quanto + ceil((quanto - q1) / 2)));
-                    queue.remove(p1);
-                    queue.add(p1);
-                    p1 = p2;
-                    setOrder(p1.getName());
-
-                }
-
+                Addarrival(processes, Time,LastT);
+                if(!queue.isEmpty())
+                    p1 = queue.get(0);
+                continue;
             }
+            burstT -= q1;
+            queue.get(indx).setBurstTime(burstT);
+            LastT=Time;
+            Time += q1;
+            Addarrival(processes, Time,LastT);
+            Process p2 = FindHighPri(queue);
+            if (!Compare(p1, p2))
+            {
+                queue.get(indx).setQuantumTime((quanto + ceil((quanto - q1) / 2)));
+                queue.remove(p1);
+                queue.add(p1);
+                p1 = p2;
+               continue;
+            }
+            q2 = ceil( (quanto - q1) / 4);
+            if (burstT <= q2)
+            {
+                processes.remove(p1);
+                queue.remove(p1);
+                LastT=Time;
+                Time += burstT;
+                Addarrival(processes, Time,LastT);
+                if(!queue.isEmpty())
+                    p1 = queue.get(0);
+                continue;
+            }
+            burstT -= q2;
+            queue.get(indx).setBurstTime(burstT);
+            LastT=Time;
+            Time += q2;
+            Addarrival(processes, Time,LastT);
+            p2 = FindLeastBrust(queue);
+            q3 = quanto - q1 - q2;
+            if (!Compare(p1, p2))
+            {
+                queue.get(indx).setQuantumTime((quanto + q3));
+                queue.remove(p1);
+                queue.add(p1);
+                p1 = p2;
+                continue;
+            }
+            if (burstT <= q3)
+            {
+                processes.remove(p1);
+                queue.remove(p1);
+                LastT=Time;
+                Time += burstT;
+                Addarrival(processes, Time,LastT);
+                if(!queue.isEmpty())
+                    p1 = queue.get(0);
+                continue;
+            }
+            burstT -= q3;
+            queue.get(indx).setBurstTime(burstT);
+            LastT=Time;
+            Time += q3;
+            Addarrival(processes, Time,LastT);
+            while ( queue.size() == 0 && processes.size()!=0)
+            {
+                LastT=Time;
+                Time++;
+                Addarrival(processes, Time,LastT);
+                p1 = queue.get(0);
+            }
+
+
         }
     }
 
