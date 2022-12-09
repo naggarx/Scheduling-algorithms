@@ -51,6 +51,16 @@ public class AG_Scheduling {
         }
 
     }
+    public void getQuantumHistory(Vector<Process> p1) {
+        for (Process process : p1) {
+           Vector<Double> v=process.getQuantumHistory();
+            System.out.println("Process " +process.getName() +" History: ");
+            System.out.println(v);
+
+        }
+
+    }
+
 
     public int getindex(Process p1, Vector<Process> P) {
         int indx = -1;
@@ -87,13 +97,18 @@ public class AG_Scheduling {
 
 //fcfs---priority---shortestburst//
 
-    public void schedule(int n)
+    public void schedule()
     {
         double Time = 0, quanto = 0, q1 = 0, q2 = 0, q3 = 0, counter = 0, burstT = 0, prio = 0,LastT;
         int indx = 0;
         int indx2 ;
         Process p1;
         Addarrival(processes, Time,-1);
+        for (Process process : processes)
+        {
+            process.AddQuantumHistory(process.getQuantumTime());
+        }
+
         while(queue.size() == 0)
         {
             LastT=Time;
@@ -101,8 +116,10 @@ public class AG_Scheduling {
             Addarrival(processes, Time,LastT);
         }
         p1 = queue.get(0);
+
         while (queue.size() > 0)
         {
+
             setOrder(p1.getName());
             quanto = p1.getQuantumTime();
             burstT = p1.getBurstTime();
@@ -118,6 +135,7 @@ public class AG_Scheduling {
                 TimeHistory.get(indx2).setTurnARoundTime(Time-TimeHistory.get(indx2).getArrivalTime());
                 Addarrival(processes, Time,LastT);
                 TimeHistory.get(indx2).setProcessTime(burstT);
+                p1.AddQuantumHistory(0.0);
                 if(!queue.isEmpty())
                     p1 = queue.get(0);
                 continue;
@@ -133,9 +151,11 @@ public class AG_Scheduling {
             if (!Compare(p1, p2))
             {
                 queue.get(indx).setQuantumTime((quanto + ceil((quanto - q1) / 2)));
+                p1.AddQuantumHistory(queue.get(indx).getQuantumTime());
                 queue.remove(p1);
                 queue.add(p1);
                 p1 = p2;
+
                continue;
             }
             q2 = ceil( (quanto - q1) / 4);
@@ -148,6 +168,7 @@ public class AG_Scheduling {
                 indx2 = getindex(p1,TimeHistory);
                 TimeHistory.get(indx2).setTurnARoundTime(Time-TimeHistory.get(indx2).getArrivalTime());
                 Addarrival(processes, Time,LastT);
+                p1.AddQuantumHistory(0.0);
                 if(!queue.isEmpty())
                     p1 = queue.get(0);
                 continue;
@@ -164,9 +185,11 @@ public class AG_Scheduling {
             if (!Compare(p1, p2))
             {
                 queue.get(indx).setQuantumTime((quanto + q3));
+                p1.AddQuantumHistory(queue.get(indx).getQuantumTime());
                 queue.remove(p1);
                 queue.add(p1);
                 p1 = p2;
+
                 continue;
             }
             if (burstT <= q3)
@@ -178,6 +201,7 @@ public class AG_Scheduling {
                 indx2 = getindex(p1,TimeHistory);
                 TimeHistory.get(indx2).setTurnARoundTime(Time-TimeHistory.get(indx2).getArrivalTime());
                 Addarrival(processes, Time,LastT);
+                p1.AddQuantumHistory(0.0);
                 if(!queue.isEmpty())
                     p1 = queue.get(0);
                 continue;
@@ -195,10 +219,13 @@ public class AG_Scheduling {
                 Time++;
                 Addarrival(processes, Time,LastT);
                 p1 = queue.get(0);
+
             }
 
 
+
         }
+
     }
 
 

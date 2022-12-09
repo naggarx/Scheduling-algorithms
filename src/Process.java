@@ -1,3 +1,5 @@
+import java.util.Vector;
+
 public class Process
 {
     private String Name;
@@ -9,6 +11,8 @@ public class Process
     private double TurnARoundTime;
     private double ProcessTime=0;
 
+    Vector<Double> QuantumHistory = new Vector<>();
+
 
 
 
@@ -16,13 +20,21 @@ public class Process
     {
     }
 
-    Process(String name,int arrive,int burst,int prio,int Quanto)
+    Process(String name,double arrive,double burst,int prio,double Quanto)
     {
         this.Name=name;
         this.ArrivalTime=arrive;
         this.BurstTime=burst;
         this.Priority=prio;
         this.QuantumTime=Quanto;
+    }
+    public Vector<Double> getQuantumHistory() {
+        return QuantumHistory;
+    }
+
+    public void AddQuantumHistory(Double H) {
+        this.QuantumHistory.add(H);
+
     }
     public void setName(String name)
     {
