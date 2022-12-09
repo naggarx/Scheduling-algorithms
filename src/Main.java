@@ -1,32 +1,55 @@
 import java.util.*;
 public class Main {
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
+        String name;
+        double arrival;
+        double Burst;
+        int prio;
+        double Quanto;
 
-        Vector<Process> pro =new Vector<>();
-        Process p1 = new Process("P1",0,17,4,7);
-        Process p2 = new Process("P2",2,6,7,9);
-        Process p3 = new Process("P3",5,11,3,4);
-        Process p4 = new Process("P4",15,4,6,6);
-        pro.add(p1);
-        pro.add(p2);
-        pro.add(p3);
-        pro.add(p4);
 
-        AG_Scheduling ag = new AG_Scheduling();
-        ag.AddProcesse(p1);
-        ag.AddProcesse(p2);
-        ag.AddProcesse(p3);
-        ag.AddProcesse(p4);
-        ag.schedule();
-        Vector<String> st = ag.getOrder();
+        Vector<Process> pro = new Vector<>();
+        AG_Scheduling AG = new AG_Scheduling();
+        Vector<String> st = AG.getOrder();
+
+        Vector<Process> TimeHistory = AG.GetTimeHistroy();
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Enter the Number of Processes");
+
+        int number = scan.nextInt();
+        for (int i = 0; i < number; i++)
+        {
+            System.out.println("Enter the Name of Process : ");
+            System.out.println();
+            name= scan.next();
+            System.out.println("Enter the Arrival Time of Process : ");
+            arrival= scan.nextInt();
+            System.out.println("Enter the Burst Time of Process : ");
+            Burst= scan.nextInt();
+            System.out.println("Enter the Priority of Process : ");
+            prio= scan.nextInt();
+            System.out.println("Enter the Quantum Time of Process : ");
+            Quanto= scan.nextInt();
+            Process p1 = new Process(name,arrival,Burst,prio,Quanto);
+            pro.add(p1);
+            AG.AddProcesse(p1);
+
+        }
+
+        AG.schedule();
+        System.out.println("Processes execution order : ");
+
         for(String s : st)
-            System.out.println(s);
+        { System.out.print(s+" , ");}
+        System.out.println();
 
-        Vector<Process> TimeHistory = ag.GetTimeHistroy();
-        ag.getQuantumHistory(pro);
+
+
+        AG.getQuantumHistory(pro);
         double TotalATime = 0;
         double TotalWTime = 0;
+        System.out.println("Turnaround Time and Waiting Time for each process : ");
+
         for(Process P: TimeHistory)
         {
             P.setWaitingTime((P.getTurnARoundTime() - P.getProcessTime()));
