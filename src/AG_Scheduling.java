@@ -2,11 +2,10 @@ import java.util.*;
 
 import static java.lang.Math.ceil;
 
-public class AG_Scheduling {
-    Vector<String> Order = new Vector<>();
+public class AG_Scheduling extends Scheduler {
     Vector<Process> queue = new Vector<>();
-    Vector<Process> processes = new Vector<>();
-    Vector<Process> TimeHistory = new Vector<>();
+
+
 
     public Process FindHighPri(Vector<Process> processes) {
         Process High = new Process();
@@ -36,14 +35,8 @@ public class AG_Scheduling {
         return p1.getName() == p2.getName();
 
     }
-    public Vector<String> getOrder() {
-        return Order;
-    }
 
-    public void AddProcesse(Process p1) {
-        this.processes.add(p1);
-        this.TimeHistory.add(p1);
-    }
+
 
     public void UpdateHistory(Vector<Process> p1) {
         for (Process process : p1) {
@@ -87,11 +80,6 @@ public class AG_Scheduling {
             }
         }
 
-    }
-
-    public Vector<Process> GetTimeHistroy()
-    {
-        return TimeHistory;
     }
 
 

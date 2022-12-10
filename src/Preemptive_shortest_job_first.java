@@ -11,7 +11,7 @@ class CompareOrderByLength implements Comparator<Process> {
     }
 }
 
-public class Preemptive_shortest_job_first implements Algorithm {
+public class Preemptive_shortest_job_first extends Scheduler implements Algorithm {
     int current_time = 0;
     private Process last = null;
     private int k = 0;

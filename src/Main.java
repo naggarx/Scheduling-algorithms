@@ -7,7 +7,7 @@ public class Main {
         int prio;
         double Quanto;
 
-
+        Scheduler scheduler;
         Vector<Process> pro = new Vector<>();
         AG_Scheduling AG = new AG_Scheduling();
         Vector<String> st = AG.getOrder();

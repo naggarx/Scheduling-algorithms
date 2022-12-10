@@ -12,7 +12,7 @@ class CompareOrderByPriority implements Comparator<Process> {
     }
 }
 
-public class Preemptive_priority_scheduling implements Algorithm {
+public class Preemptive_priority_scheduling extends Scheduler  implements Algorithm {
 
     PriorityQueue<Process> pq = new PriorityQueue<>(new CompareOrderByPriority());
 
