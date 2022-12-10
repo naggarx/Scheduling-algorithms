@@ -38,20 +38,16 @@ public class Main {
 
         AG.schedule();
         System.out.println("Processes execution order : ");
-
         for(String s : st)
         { System.out.print(s+" , ");}
         System.out.println();
-
-
-
         AG.getQuantumHistory(pro);
         double TotalATime = 0;
         double TotalWTime = 0;
         System.out.println("Turnaround Time and Waiting Time for each process : ");
-
         for(Process P: TimeHistory)
         {
+
             P.setWaitingTime((P.getTurnARoundTime() - P.getProcessTime()));
             System.out.println(P.getName() + " Turn Around Time: " + P.getTurnARoundTime() + " Waiting Time: " + P.getWaitingTime());
             TotalATime+=P.getTurnARoundTime();

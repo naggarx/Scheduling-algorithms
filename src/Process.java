@@ -12,7 +12,7 @@ public class Process {
     private double QuantumTime;
     private double WaitingTime;
     private double TurnARoundTime;
-    private double ProcessTime = 0;
+    private double ProcessTime;
 
     Vector<Double> QuantumHistory = new Vector<>();
 
@@ -27,6 +27,7 @@ public class Process {
         this.BurstTime = burst;
         this.Priority = prio;
         this.QuantumTime = Quanto;
+        ProcessTime = BurstTime;
     }
 
     public Vector<Double> getQuantumHistory() {
@@ -37,7 +38,10 @@ public class Process {
         this.QuantumHistory.add(H);
 
     }
-
+    public double getProcessTime()
+    {
+        return ProcessTime;
+    }
     public void setName(String name) {
         this.Name = name;
 
@@ -86,15 +90,6 @@ public class Process {
     public double getQuantumTime() {
         return QuantumTime;
 
-    }
-
-
-    public double getProcessTime() {
-        return ProcessTime;
-    }
-
-    public void setProcessTime(double processTime) {
-        ProcessTime += processTime;
     }
 
     public double getTurnARoundTime() {

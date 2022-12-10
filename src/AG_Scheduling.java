@@ -44,8 +44,10 @@ public class AG_Scheduling extends Scheduler {
         }
 
     }
-    public void getQuantumHistory(Vector<Process> p1) {
-        for (Process process : p1) {
+    public void getQuantumHistory(Vector<Process> p1)
+    {
+        for (Process process : p1)
+        {
            Vector<Double> v=process.getQuantumHistory();
             System.out.println("Process " +process.getName() +" History: ");
             System.out.println(v);
@@ -122,7 +124,6 @@ public class AG_Scheduling extends Scheduler {
                 indx2 = getindex(p1,TimeHistory);
                 TimeHistory.get(indx2).setTurnARoundTime(Time-TimeHistory.get(indx2).getArrivalTime());
                 Addarrival(processes, Time,LastT);
-                TimeHistory.get(indx2).setProcessTime(burstT);
                 p1.AddQuantumHistory(0.0);
                 if(!queue.isEmpty())
                     p1 = queue.get(0);
@@ -134,7 +135,6 @@ public class AG_Scheduling extends Scheduler {
             Time += q1;
             Addarrival(processes, Time,LastT);
             indx2 = getindex(p1,TimeHistory);
-            TimeHistory.get(indx2).setProcessTime(q1);
             Process p2 = FindHighPri(queue);
             if (!Compare(p1, p2))
             {
@@ -167,7 +167,6 @@ public class AG_Scheduling extends Scheduler {
             Time += q2;
             Addarrival(processes, Time,LastT);
             indx2 = getindex(p1,TimeHistory);
-            TimeHistory.get(indx2).setProcessTime(q2);
             p2 = FindLeastBrust(queue);
             q3 = quanto - q1 - q2;
             if (!Compare(p1, p2))
@@ -200,7 +199,14 @@ public class AG_Scheduling extends Scheduler {
             Time += q3;
             Addarrival(processes, Time,LastT);
             indx2 = getindex(p1,TimeHistory);
-            TimeHistory.get(indx2).setProcessTime(q3);
+            if (queue.get(indx).getBurstTime()>0)
+            {
+                queue.get(indx).setQuantumTime((queue.get(indx).getQuantumTime())*2);
+                p1.AddQuantumHistory(queue.get(indx).getQuantumTime());
+                queue.remove(p1);
+                queue.add(p1);
+                continue;
+            }
             while ( queue.size() == 0 && processes.size()!=0)
             {
                 LastT=Time;
