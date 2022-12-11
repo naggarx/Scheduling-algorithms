@@ -2,5 +2,5 @@ import java.util.Queue;
 
 public interface Algorithm {
 
-    public void run(Queue<Process> q);
+    public void run();
 }

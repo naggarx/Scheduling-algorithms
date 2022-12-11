@@ -2,11 +2,17 @@ import java.util.Vector;
 
 abstract public class Scheduler {
 
+
     Vector<Process> TimeHistory = new Vector<>();
 
     Vector<Process> processes = new Vector<>();
     Vector<String> Order = new Vector<>();
 
+
+    abstract void input(int numbers,int timeQuantum,int contextSwitching);
+
+    abstract void output();
+    abstract void doScheuling();
 
     public Vector<Process> GetTimeHistroy() {
         return TimeHistory;
