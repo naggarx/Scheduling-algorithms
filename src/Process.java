@@ -20,14 +20,19 @@ public class Process {
     Process() {
     }
 
-    Process(String name, double arrive, double burst, int prio, double Quanto) {
+    Process(String name, double arrive, double burst, int prio) {
         processNumber = genProcessNumber++;
         this.Name = name;
         this.ArrivalTime = arrive;
         this.BurstTime = burst;
         this.Priority = prio;
-        this.QuantumTime = Quanto;
         ProcessTime = BurstTime;
+        TurnARoundTime = 0;
+
+    }
+
+    public void setQuantumTime(int Quanto) {
+        this.QuantumTime = Quanto;
     }
 
     public Vector<Double> getQuantumHistory() {
@@ -38,10 +43,11 @@ public class Process {
         this.QuantumHistory.add(H);
 
     }
-    public double getProcessTime()
-    {
+
+    public double getProcessTime() {
         return ProcessTime;
     }
+
     public void setName(String name) {
         this.Name = name;
 
@@ -107,6 +113,7 @@ public class Process {
     public void setWaitingTime(double waitingTime) {
         WaitingTime = waitingTime;
     }
+
     public int getProcessNumber() {
         return processNumber;
     }
