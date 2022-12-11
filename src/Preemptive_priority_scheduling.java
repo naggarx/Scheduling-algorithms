@@ -2,9 +2,9 @@ import java.util.*;
 
 class CompareOrderByPriority implements Comparator<Process> {
     public int compare(Process p1, Process p2) {
-        if (p1.getPriority() < p2.getPriority()) {
+        if (p1.getPriority() > p2.getPriority()) {
             return -1;
-        } else if (p1.getPriority() > p2.getPriority())
+        } else if (p1.getPriority() < p2.getPriority())
             return 1;
         return 0;
     }
@@ -34,10 +34,12 @@ public class Preemptive_priority_scheduling extends Scheduler implements Algorit
     @Override
     public void run() {
         while (!q.isEmpty() || !pq.isEmpty()) {
+
             if (!q.isEmpty() && current_time >= q.peek().getArrivalTime()) {
                 Process p = q.poll();
-                p.setPriority(p.getPriority() - starvation++);
+                p.setPriority(p.getPriority() + starvation++);
                 pq.add(p);
+
             }
             if (!pq.isEmpty()) {
                 Process p = pq.poll();
@@ -57,6 +59,8 @@ public class Preemptive_priority_scheduling extends Scheduler implements Algorit
                 for (Process process : pq) {
                     process.setTurnARoundTime(process.getTurnARoundTime() + 1);
                 }
+
+
             }
         }
         current_time++;
